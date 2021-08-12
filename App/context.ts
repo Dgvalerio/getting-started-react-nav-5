@@ -1,6 +1,10 @@
-import React from 'react';
+import { createContext } from 'react';
 
-const AuthContext = React.createContext({
+const AuthContext = createContext<{
+  signOut: () => void | null;
+  signIn: () => void | null;
+  signUp: () => void | null;
+}>({
   signOut: () => null,
   signIn: () => null,
   signUp: () => null,
