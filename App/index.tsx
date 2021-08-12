@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { Home, Profile, Search, Details, Search2 } from './Screens';
+import { Home, Profile, Search, Details, Search2, Splash } from './Screens';
 
 type HomeStackParamList = {
   Home: undefined;
@@ -52,13 +52,23 @@ const TabsScreen = () => (
   </Tabs.Navigator>
 );
 
-const App: FC = () => (
-  <NavigationContainer>
-    <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={TabsScreen} />
-      <Drawer.Screen name="Profile" component={ProfileStackScreen} />
-    </Drawer.Navigator>
-  </NavigationContainer>
-);
+const App: FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1000);
+  }, []);
+
+  if (isLoading) return <Splash />;
+
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={TabsScreen} />
+        <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default App;
