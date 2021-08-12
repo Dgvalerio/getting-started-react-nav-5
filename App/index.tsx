@@ -1,20 +1,11 @@
 import React, { FC } from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {
-  CreateAccount,
-  SignIn,
-  Home,
-  Profile,
-  Search,
-  Details,
-  Search2,
-} from './Screens';
-
-const AuthStack = createStackNavigator();
+import { Home, Profile, Search, Details, Search2 } from './Screens';
 
 type HomeStackParamList = {
   Home: undefined;
@@ -26,24 +17,9 @@ const HomeStack = createStackNavigator<HomeStackParamList>();
 const ProfileStack = createStackNavigator();
 const SearchStack = createStackNavigator();
 
-const AppWithStackNavigation: FC = () => (
-  <NavigationContainer>
-    <AuthStack.Navigator>
-      <AuthStack.Screen
-        name="SignIn"
-        component={SignIn}
-        options={{ title: 'Sign in' }}
-      />
-      <AuthStack.Screen
-        name="CreateAccount"
-        component={CreateAccount}
-        options={{ title: 'Create Account' }}
-      />
-    </AuthStack.Navigator>
-  </NavigationContainer>
-);
+const Drawer = createDrawerNavigator();
 
-const HomeStackNavigation: FC = () => (
+const HomeStackScreen: FC = () => (
   <HomeStack.Navigator>
     <HomeStack.Screen name="Home" component={Home} />
     <HomeStack.Screen
@@ -56,25 +32,32 @@ const HomeStackNavigation: FC = () => (
   </HomeStack.Navigator>
 );
 
-const ProfileStackNavigation: FC = () => (
+const ProfileStackScreen: FC = () => (
   <ProfileStack.Navigator>
     <ProfileStack.Screen name="Profile" component={Profile} />
   </ProfileStack.Navigator>
 );
 
-const SearchStackNavigation: FC = () => (
+const SearchStackScreen: FC = () => (
   <SearchStack.Navigator>
     <SearchStack.Screen name="Search" component={Search} />
     <SearchStack.Screen name="Search2" component={Search2} />
   </SearchStack.Navigator>
 );
 
+const TabsScreen = () => (
+  <Tabs.Navigator>
+    <Tabs.Screen name="Home Stack" component={HomeStackScreen} />
+    <Tabs.Screen name="Search Stack" component={SearchStackScreen} />
+  </Tabs.Navigator>
+);
+
 const App: FC = () => (
   <NavigationContainer>
-    <Tabs.Navigator>
-      <Tabs.Screen name="Home Stack" component={HomeStackNavigation} />
-      <Tabs.Screen name="Search Stack" component={SearchStackNavigation} />
-    </Tabs.Navigator>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home" component={TabsScreen} />
+      <Drawer.Screen name="Profile" component={ProfileStackScreen} />
+    </Drawer.Navigator>
   </NavigationContainer>
 );
 
